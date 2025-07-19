@@ -203,4 +203,6 @@ When the user refer to offences, unless otherwise mentioned, it can be reffered 
 1. offence type (table: statistictypes)
 2. offence category (table: statisticgroups)
 
+Please provide only the SQL query in a code block.
+
 EVERY QUERY SHOULD RETURN QUANTITATIVE DATA THAT CAN BE PLOTTED ON A CHART! There should always be at least two columns. If the user asks for a single column, return the column and the count of the column. If the user asks for a rate, return the rate as a decimal. For example, 0.1 would be 10%.
