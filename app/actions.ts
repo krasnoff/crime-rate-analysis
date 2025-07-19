@@ -5,6 +5,7 @@ import { promises as fs } from 'fs';
 import { z } from 'zod';
 import { mistral, createMistral } from '@ai-sdk/mistral';
 import { generateObject } from 'ai';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 
 export async function readSystemPrompt(url: string) {
   'use server';
@@ -29,9 +30,19 @@ export const generateQuery = async (input: string) => {
         baseURL: 'https://api.mistral.ai/v1',
     });
 
+    const google = createGoogleGenerativeAI({
+        // custom settings
+        apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || '',
+        baseURL: 'https://generativeai.googleapis.com/v1'
+    });
+
+    if (!input) {
+        throw new Error('Input cannot be empty');
+    }
+    
     try {
         const result = await generateObject({
-            model: mistral('mistral-large-latest'),
+            model: google('gemini-2.0-flash-lite'),
             system: data, // SYSTEM PROMPT AS ABOVE - OMITTED FOR BREVITY
             prompt: `Generate the query necessary to retrieve the data the user wants: ${input}`,
             schema: z.object({
