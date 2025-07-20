@@ -4,7 +4,7 @@ import path from 'path';
 import { promises as fs } from 'fs';
 import { z } from 'zod';
 import { mistral, createMistral } from '@ai-sdk/mistral';
-import { generateObject } from 'ai';
+import { generateObject, APICallError } from 'ai';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 
 export async function readSystemPrompt(url: string) {
@@ -51,7 +51,15 @@ export const generateQuery = async (input: string) => {
         });
         return result.object.query;
     } catch (e) {
-        console.error(e);
+        
+        if (APICallError.isInstance(e)) {
+            // Handle the error
+            console.error('API call error:', e.message);
+            console.error('Status code:', e.statusCode);    
+            console.error('Response body:', e.responseBody);
+            throw new Error(`API call failed: ${e.message}`);
+        }
+
         throw new Error('Failed to generate query');
     }
 };
