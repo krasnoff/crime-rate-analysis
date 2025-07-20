@@ -55,7 +55,8 @@ export const generateQuery = async (input: string) => {
         if (APICallError.isInstance(e)) {
             // Handle the error
             console.error('API call error:', e.message);
-            console.error('Status code:', e.statusCode);    
+            console.error('Status code:', e.statusCode);   
+            console.error('data:', e.data); 
             console.error('Response body:', e.responseBody);
             throw new Error(`API call failed: ${e.message}`);
         }
