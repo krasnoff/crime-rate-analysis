@@ -18,7 +18,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen p-8 gap-6 font-[family-name:var(--font-geist-sans)]">
+    <div className="flex flex-col items-center min-h-screen p-8 gap-6 font-[family-name:var(--font-geist-sans)]" dir="rtl">
       <form onSubmit={handleSubmit} className="w-full max-w-xl flex flex-col items-center gap-4">
         <textarea
           className="w-full min-h-[100px] p-3 border rounded resize-y text-base"
@@ -33,7 +33,7 @@ export default function Home() {
           Submit
         </button>
       </form>
-      <div className="w-full max-w-xl mt-4 p-4 border rounded bg-gray-50 min-h-[60px]">
+      <div className="w-full max-w-xl mt-4 p-4 border rounded bg-gray-50 min-h-[60px]" dir="ltr">
         {answer}
       </div>
     </div>
