@@ -159,6 +159,30 @@ the municipal table has a one to many relation with crimestatistics table. both 
 
 ------------------------------------
 
+statisticgroups {
+  statisticgroupkod INTEGER PRIMARY KEY
+  statisticgroup VARCHAR(100) NOT NULL
+}
+
+this table is a list of all offences groups.
+
+1. statisticgroupkod - offence group category code
+2. statisticgroup - offence group category name
+
+------------------------------------
+
+statistictypes {
+  statistictypekod INTEGER PRIMARY KEY
+  statistictype VARCHAR(255) NOT NULL
+}
+
+this table is a list of all offences types.
+
+1. statistictypekod - offence type code
+2. statistictype - offence type name
+
+------------------------------------
+
 link_district_borough_station {
   policedistrictkod INTEGER 
   policemerhavkod INTEGER
@@ -202,6 +226,26 @@ When the user refer to a certain area, unless otherwise mentioned, area mean one
 When the user refer to offences, unless otherwise mentioned, it can be reffered to one of the following:
 1. offence type (table: statistictypes)
 2. offence category (table: statisticgroups)
+first look in statistictypes table and only after that look in statisticgroups
+
+------------------------------------
+
+whenever the user ask for a query according to one or more of the following criterias:
+1. municipalName in table municipal
+2. policedistrict in table policedistricts
+3. policemerhav in table policemerhavim
+4. policestation in table policestations
+5. statisticarea in table statisticareas
+6. statisticgroup in table statisticgroups
+7. statistictype in table statistictypes
+8. yeshuv in table yeshuvim
+
+please define the SQL criteria as follows: LIKE '%<creteria value>%'
+
+-------------------------------------
+
+if the request contains the word: 'דרום' then convert it to 'דרומי'
+if the request contains the word: 'ת"א' or 'תל אביב' and this request criteria refers to police district then convert it to 'תא'
 
 Please provide only the SQL query in a code block.
 

@@ -14,7 +14,7 @@ export default function Home() {
     const query = await generateQuery(input);
 
 
-    setAnswer(`You submitted: ${input}`);
+    setAnswer(query || "No query generated. Please try again.");
   };
 
   return (

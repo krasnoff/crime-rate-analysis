@@ -33,7 +33,6 @@ export const generateQuery = async (input: string) => {
     const google = createGoogleGenerativeAI({
         // custom settings
         apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || '',
-        baseURL: 'https://generativeai.googleapis.com/v1'
     });
 
     if (!input) {
