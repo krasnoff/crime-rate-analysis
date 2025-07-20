@@ -3,7 +3,6 @@
 import path from 'path';
 import { promises as fs } from 'fs';
 import { z } from 'zod';
-import { mistral, createMistral } from '@ai-sdk/mistral';
 import { generateObject, APICallError } from 'ai';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 
@@ -24,11 +23,6 @@ export const generateQuery = async (input: string) => {
     'use server';
 
     const data = await readSystemPrompt('system-prompt.txt');
-
-    const mistralClient = createMistral({
-        apiKey: process.env.MISTRAL_API_KEY || '',
-        baseURL: 'https://api.mistral.ai/v1',
-    });
 
     const google = createGoogleGenerativeAI({
         // custom settings
