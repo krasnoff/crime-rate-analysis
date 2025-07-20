@@ -1,14 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { generateQuery } from "./actions";
 
 export default function Home() {
   const [input, setInput] = useState("");
   const [answer, setAnswer] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Replace this with your logic to generate the answer
+    
+    // TODO - Call the generateQuery function with the input
+    const query = await generateQuery(input);
+
+
     setAnswer(`You submitted: ${input}`);
   };
 
