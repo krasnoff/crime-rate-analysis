@@ -1,18 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { generateQuery } from "./actions";
+import { generateQuery, runGeneratedSQLQuery } from "./actions";
+import { Result } from "@/types/result";
 
 export default function Home() {
   const [input, setInput] = useState("");
   const [answer, setAnswer] = useState("");
+  const [data, setData] = useState<Result[]>([]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // TODO - Call the generateQuery function with the input
     const query = await generateQuery(input);
-
+    const datares = await runGeneratedSQLQuery(query);
+    setData(datares);
 
     setAnswer(query || "No query generated. Please try again.");
   };
@@ -36,6 +39,32 @@ export default function Home() {
       <div className="w-full max-w-xl mt-4 p-4 border rounded bg-gray-50 min-h-[60px]" dir="ltr">
         {answer}
       </div>
+      {data.length > 0 && (
+        <div className="w-full max-w-xl mt-4 overflow-x-auto">
+          <table className="min-w-full border-collapse border border-gray-300">
+            <thead>
+              <tr>
+                {Object.keys(data[0]).map((key) => (
+                  <th key={key} className="border px-4 py-2 bg-gray-100 text-left">
+                    {key}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((row, idx) => (
+                <tr key={idx}>
+                  {Object.values(row).map((value, i) => (
+                    <td key={i} className="border px-4 py-2">
+                      {String(value)}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
