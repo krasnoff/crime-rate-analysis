@@ -39,7 +39,7 @@ export default function Home() {
         />
         <button
           type="submit"
-          className="px-6 py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+          className="px-6 py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 active:bg-blue-800 active:scale-95 transition transform"
         >
           Submit
         </button>
