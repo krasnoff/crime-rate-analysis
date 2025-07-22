@@ -58,7 +58,7 @@ export default function Home() {
         {answer}
       </div>
       {errorMessage && (
-        <div className="w-full max-w-xl mt-4 p-4 border rounded bg-red-50 text-red-600">
+        <div className="w-full max-w-xl mt-4 p-4 border rounded bg-red-50 text-red-600" dir="ltr">
           {errorMessage || "An error occurred while processing your request."}
         </div>
       )}
