@@ -53,7 +53,7 @@ export const generateQuery = async (input: string) => {
             console.error('Status code:', e.statusCode);   
             console.error('data:', e.data); 
             console.error('Response body:', e.responseBody);
-            throw new Error(`API call failed: ${e.message}`);
+            throw new Error(`API call failed: ${e}`);
         }
 
         throw new Error('Failed to generate query');
