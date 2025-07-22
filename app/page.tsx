@@ -16,6 +16,7 @@ export default function Home() {
     e.preventDefault();
     
     setPleaseWait(true);
+    setErrorMessage("");
     try {
       const query = await generateQuery(input);
       const datares = await runGeneratedSQLQuery(query);
@@ -39,7 +40,13 @@ export default function Home() {
         />
         <button
           type="submit"
-          className="px-6 py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 active:bg-blue-800 active:scale-95 transition transform"
+          className="px-6 py-2 rounded bg-blue-600 text-white font-semibold
+            hover:bg-blue-700
+            active:bg-blue-800 active:scale-95
+            transition transform
+            disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed
+            disabled:active:bg-gray-400 disabled:active:scale-100"
+          disabled={pleaseWait}
         >
           Submit
         </button>
