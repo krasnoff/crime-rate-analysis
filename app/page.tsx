@@ -8,16 +8,19 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [answer, setAnswer] = useState("");
   const [data, setData] = useState<Result[]>([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // TODO - Call the generateQuery function with the input
-    const query = await generateQuery(input);
-    const datares = await runGeneratedSQLQuery(query);
-    setData(datares);
-
-    setAnswer(query || "No query generated. Please try again.");
+    try {
+      const query = await generateQuery(input);
+      const datares = await runGeneratedSQLQuery(query);
+      setData(datares);
+      setAnswer(query || "No query generated. Please try again.");
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "An unexpected error occurred.");  
+    }
   };
 
   return (
@@ -39,6 +42,11 @@ export default function Home() {
       <div className="w-full max-w-xl mt-4 p-4 border rounded bg-gray-50 min-h-[60px]" dir="ltr">
         {answer}
       </div>
+      {errorMessage && (
+        <div className="w-full max-w-xl mt-4 p-4 border rounded bg-red-50 text-red-600">
+          {errorMessage || "An error occurred while processing your request."}
+        </div>
+      )}
       {data.length > 0 && (
         <div className="w-full max-w-xl mt-4 overflow-x-auto">
           <table className="min-w-full border-collapse border border-gray-300">
