@@ -3,7 +3,7 @@
 import path from 'path';
 import { z } from 'zod';
 import { generateObject, APICallError } from 'ai';
-import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { createGoogleGenerativeAI, GoogleGenerativeAIProviderOptions } from '@ai-sdk/google';
 import { sql } from "@vercel/postgres";
 import { Result } from '@/types/result';
 
@@ -38,6 +38,13 @@ export const generateQuery = async (input: string) => {
     try {
         const result = await generateObject({
             model: google('gemini-2.5-flash'),
+            providerOptions: {
+              google: {
+                thinkingConfig: {
+                  thinkingBudget: -1,
+                },
+              } satisfies GoogleGenerativeAIProviderOptions,
+            },
             system: data, // SYSTEM PROMPT AS ABOVE - OMITTED FOR BREVITY
             prompt: `Generate the query necessary to retrieve the data the user wants: ${input}`,
             schema: z.object({
