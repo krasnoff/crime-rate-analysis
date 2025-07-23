@@ -24,7 +24,7 @@ export async function readSystemPrompt(url: string) {
 export const generateQuery = async (input: string) => {
     'use server';
 
-    const data = await readSystemPrompt('system-prompt.txt');
+    const data = await readSystemPrompt('system-prompt.txt'); 
 
     const google = createGoogleGenerativeAI({
         // custom settings
