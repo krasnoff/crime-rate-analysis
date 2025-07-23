@@ -13,7 +13,8 @@ export async function readSystemPrompt(url: string) {
   const filePath = path.join(process.cwd(), 'data', url);
   console.log('Reading system prompt from:', filePath);
   try {
-    const data = await fs.readFile(filePath, 'utf-8');
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/data/system-prompt.txt`);
+    const data = await response.text();
     return data;
   } catch (err) {
     console.error('Error reading system prompt:', err);
