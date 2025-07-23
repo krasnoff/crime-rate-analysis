@@ -1,7 +1,6 @@
 "use server";
 
 import path from 'path';
-import { promises as fs } from 'fs';
 import { z } from 'zod';
 import { generateObject, APICallError } from 'ai';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
