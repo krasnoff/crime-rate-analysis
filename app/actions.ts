@@ -84,11 +84,11 @@ export const runGeneratedSQLQuery = async (query: string) => {
     throw new Error("Only SELECT queries are allowed");
   }
 
-  let data: any;
+  let data: { rows: Result[] };
   try {
     data = await sql.query(query);
-  } catch (e: any) {
-    if (e.message.includes('relation "unicorns" does not exist')) {
+  } catch (e: unknown) {
+    if (e instanceof Error && e.message.includes('relation "unicorns" does not exist')) {
       console.log(
         "Table does not exist, creating and seeding it with dummy data now...",
       );
