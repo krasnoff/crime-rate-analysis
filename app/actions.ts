@@ -37,7 +37,7 @@ export const generateQuery = async (input: string) => {
     
     try {
         const result = await generateObject({
-            model: google('gemini-2.0-flash-lite'),
+            model: google('gemini-2.5-flash'),
             system: data, // SYSTEM PROMPT AS ABOVE - OMITTED FOR BREVITY
             prompt: `Generate the query necessary to retrieve the data the user wants: ${input}`,
             schema: z.object({
