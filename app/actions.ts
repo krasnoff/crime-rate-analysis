@@ -77,7 +77,7 @@ export const runGeneratedSQLQuery = async (query: string) => {
   "use server";
   // Ensure the query is a SELECT statement. Otherwise, throw an error
   if (
-    !query.trim().toLowerCase().startsWith("select") ||
+    !(query.trim().toLowerCase().startsWith("select") || query.trim().toLowerCase().startsWith("with")) ||
     query.trim().toLowerCase().includes("drop") ||
     query.trim().toLowerCase().includes("delete") ||
     query.trim().toLowerCase().includes("insert") ||
