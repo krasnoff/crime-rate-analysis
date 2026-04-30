@@ -1,9 +1,9 @@
 "use server";
 
 import path from 'path';
-import { z } from 'zod';
-import { generateObject, APICallError } from 'ai';
-import { createGoogleGenerativeAI, GoogleGenerativeAIProviderOptions } from '@ai-sdk/google';
+import { generateText, APICallError } from 'ai';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { createOpenAI } from '@ai-sdk/openai';
 import { sql } from "@vercel/postgres";
 import { Result } from '@/types/result';
 
@@ -26,32 +26,74 @@ export const generateQuery = async (input: string) => {
 
     const data = await readSystemPrompt('system-prompt.txt'); 
 
-    const google = createGoogleGenerativeAI({
-        // custom settings
-        apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || '',
+    // Configure Ollama using OpenAI-compatible API
+    const ollama = createOpenAI({
+        baseURL: process.env.OLLAMA_BASE_URL,
+        apiKey: process.env.OLLAMA_API_KEY, // Empty string for local Ollama instances
+        headers: {
+          Authorization: `Bearer ${process.env.OLLAMA_API_KEY}`,
+        },
     });
+
+    console.log('Generating query for input:', ollama, input);
 
     if (!input) {
         throw new Error('Input cannot be empty');
     }
     
     try {
-        const result = await generateObject({
-            model: google('gemini-2.5-flash'),
-            providerOptions: {
-              google: {
-                thinkingConfig: {
-                  thinkingBudget: -1,
-                },
-              } satisfies GoogleGenerativeAIProviderOptions,
-            },
+        const result = await generateText({
+            model: ollama(process.env.OLLAMA_MODEL ?? 'gpt-oss:120b-cloud'), // Use your available model
             system: data, // SYSTEM PROMPT AS ABOVE - OMITTED FOR BREVITY
             prompt: `Generate the query necessary to retrieve the data the user wants: ${input}`,
-            schema: z.object({
-                query: z.string(),
-            }),
         });
-        return result.object.query;
+        
+        // Extract SQL query from the response
+        const response = result.text;
+        console.log('AI Response:', response);
+        
+        // Look for SQL query in code blocks or extract it
+        let query = response;
+        
+        // Try to extract SQL from code blocks first
+        const codeBlockMatch = response.match(/```(?:sql)?\s*([\s\S]*?)\s*```/i);
+        if (codeBlockMatch) {
+            query = codeBlockMatch[1].trim();
+        } else {
+            // If no code block, look for SELECT or WITH statements
+            const sqlMatch = response.match(/((?:WITH|SELECT)[\s\S]*?)(?:\n\n|$)/i);
+            if (sqlMatch) {
+                query = sqlMatch[1].trim();
+            }
+        }
+        
+        // Clean up the query - remove comments and extra text
+        query = query
+            .split('\n')
+            .map(line => {
+                // Remove single-line comments (-- style)
+                const commentIndex = line.indexOf('--');
+                if (commentIndex !== -1) {
+                    line = line.substring(0, commentIndex);
+                }
+                return line.trim();
+            })
+            .filter(line => line.length > 0)
+            .join(' ')
+            // Remove multi-line comments (/* */ style)
+            .replace(/\/\*[\s\S]*?\*\//g, '')
+            // Remove any explanatory text before SELECT/WITH
+            .replace(/^.*?((?:WITH|SELECT))/i, '$1')
+            // Clean up extra whitespace
+            .replace(/\s+/g, ' ')
+            .trim();
+        
+        if (!query) {
+            throw new Error('No SQL query found in response');
+        }
+        
+        console.log('Extracted Query:', query);
+        return query;
     } catch (e) {
         
         if (APICallError.isInstance(e)) {
@@ -63,6 +105,7 @@ export const generateQuery = async (input: string) => {
             throw new Error(`API call failed: ${e}`);
         }
 
+        
         throw new Error('Failed to generate query');
     }
 };
