@@ -30,9 +30,6 @@ export const generateQuery = async (input: string) => {
     const ollama = createOpenAI({
         baseURL: process.env.OLLAMA_BASE_URL,
         apiKey: process.env.OLLAMA_API_KEY, // Empty string for local Ollama instances
-        headers: {
-          Authorization: `Bearer ${process.env.OLLAMA_API_KEY}`,
-        },
     });
 
     console.log('Generating query for input:', ollama, input);
