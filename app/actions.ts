@@ -1,6 +1,5 @@
 "use server";
 
-import path from 'path';
 import { generateText, APICallError } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
 import { sql } from "@vercel/postgres";
