@@ -2,29 +2,15 @@
 
 import path from 'path';
 import { generateText, APICallError } from 'ai';
-import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { createOpenAI } from '@ai-sdk/openai';
 import { sql } from "@vercel/postgres";
 import { Result } from '@/types/result';
-
-export async function readSystemPrompt(url: string) {
-  'use server';
-  const filePath = path.join(process.cwd(), 'data', url);
-  console.log('Reading system prompt from:', filePath);
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/data/system-prompt.txt`);
-    const data = await response.text();
-    return data;
-  } catch (err) {
-    console.error('Error reading system prompt:', err);
-    throw err;
-  }
-}
+import { systemPrompt } from '@/lib/system_prompt';
 
 export const generateQuery = async (input: string) => {
     'use server';
 
-    const data = await readSystemPrompt('system-prompt.txt'); 
+    const data = systemPrompt;
 
     // Configure Ollama using OpenAI-compatible API
     const ollama = createOpenAI({
