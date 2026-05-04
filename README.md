@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📊 AI-Powered Crime Rate Analysis System
 
-## Getting Started
+**מערכת ניתוח שיעורי פשיעה מבוססת בינה מלאכותית**
 
-First, run the development server:
+A sophisticated web application that transforms natural language queries into insightful crime statistics analysis. Simply ask questions in Hebrew about crime data, and get immediate, data-driven answers.
 
+## ✨ Key Features
+
+- **🗣️ Natural Language Queries**: Ask questions in Hebrew about crime statistics using everyday language
+- **🤖 AI-Powered**: Uses advanced AI (Ollama) to convert your questions into SQL queries
+- **📈 Real-Time Analysis**: Get instant insights from comprehensive crime databases
+- **🎯 Sample Queries**: Pre-loaded examples to help you explore the data
+- **📱 Responsive Design**: Modern, mobile-friendly interface with Hebrew RTL support
+- **📊 Data Visualization**: Clear, interactive results display
+
+## 🚀 Example Queries
+
+- "הראה לי שיעורי פשיעה לפי עיר בשנה האחרונה" (Show me crime rates by city in the last year)
+- "איזה אזורים הם בעלי שיעורי הפשיעה האלימה הגבוהים ביותר?" (Which areas have the highest violent crime rates?)
+- "השווה מגמות פשיעה ברכוש ב-5 השנים האחרונות" (Compare property crime trends over the last 5 years)
+
+## 🛠️ Technology Stack
+
+- **Frontend**: Next.js 15, React, TypeScript, Tailwind CSS
+- **AI/ML**: Ollama for natural language processing
+- **Database**: Vercel Postgres for crime statistics storage
+- **Deployment**: Vercel Platform
+- **Analytics**: Vercel Analytics
+
+## 🏃‍♂️ Getting Started
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/crime-rate-analysis.git
+cd crime-rate-analysis
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up environment variables:
+```bash
+cp .env.example .env.local
+# Configure your Ollama and Postgres settings
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Run the development server:
+```bash
+npm run dev
+```
 
-## Learn More
+5. Open [http://localhost:3000](http://localhost:3000) to start analyzing crime data!
 
-To learn more about Next.js, take a look at the following resources:
+## 🔧 Configuration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Configure your environment variables:
+- `OLLAMA_BASE_URL`: Your Ollama server URL
+- `OLLAMA_API_KEY`: API key for Ollama (if required)
+- `OLLAMA_MODEL`: Model name (default: gpt-oss:120b-cloud)
+- `POSTGRES_URL`: Your Vercel Postgres connection string
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🤝 Contributing
 
-## Deploy on Vercel
+Contributions are welcome! Feel free to:
+- Report bugs
+- Suggest new features
+- Submit pull requests
+- Improve documentation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📄 License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+**Built with ❤️ by [Kobi Krasnoff](https://github.com/your-username)**
+
+*Making crime data analysis accessible through the power of AI and natural language processing.*
